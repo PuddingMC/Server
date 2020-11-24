@@ -1,21 +1,29 @@
 package me.puds.server.api.protocol;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
+import me.puds.server.api.protocol.server.LoginDisconnectPacket;
+import me.puds.server.api.text.TextComponent;
+
 import java.net.InetSocketAddress;
 
 public class Connection {
     private final InetSocketAddress address;
     private final ProtocolVersion protocolVersion;
+    private final Channel channel;
 
-    private String serverAddress;
-    private int serverPort;
-    private ConnectionState state;
+    private String serverAddress = "";
+    private int serverPort = 0;
+    private ConnectionState state = ConnectionState.HANDSHAKING;
 
-    public Connection(InetSocketAddress address, ProtocolVersion protocolVersion) {
+    public Connection(InetSocketAddress address, ProtocolVersion protocolVersion, Channel channel) {
         this.address = address;
         this.protocolVersion = protocolVersion;
+        this.channel = channel;
     }
 
-    public void send(Packet packet) {
+    public void sendPacket(Packet packet) {
         // Hacky workaround to get the final buffer size
         PacketBuffer tempBuffer = packet.toBuffer(protocolVersion);
         byte[] data = tempBuffer.toByteArray();
@@ -28,7 +36,18 @@ public class Connection {
         buffer.writeBytes(data);
 
         // TODO: Compress and encrypt the packet if applicable
-        // TODO: Actually send the packet
+        ByteBuf byteBuf = Unpooled.copiedBuffer(buffer.toByteArray());
+        channel.writeAndFlush(byteBuf);
+    }
+
+    public void disconnect(TextComponent reason) {
+        if (state == ConnectionState.LOGIN) {
+            LoginDisconnectPacket packet = new LoginDisconnectPacket(reason);
+            sendPacket(packet);
+        } else if (state == ConnectionState.PLAY) {
+            // TODO: Send disconnect packet
+        }
+        channel.disconnect();
     }
 
     public InetSocketAddress getAddress() {
@@ -41,6 +60,10 @@ public class Connection {
 
     public String getServerAddress() {
         return serverAddress;
+    }
+
+    public Channel getChannel() {
+        return channel;
     }
 
     public void setServerAddress(String serverAddress) {

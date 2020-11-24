@@ -1,14 +1,15 @@
-package me.puds.server.api.protocol;
+package me.puds.server.api;
 
 import java.util.Arrays;
 
-public enum HandshakeIntent {
-    STATUS(1),
-    LOGIN(2);
+public enum ChatPosition {
+    CHAT(0),
+    SYSTEM_MESSAGE(1),
+    GAME_INFO(2);
 
     private final int value;
 
-    HandshakeIntent(int value) {
+    ChatPosition(int value) {
         this.value = value;
     }
 
@@ -16,7 +17,7 @@ public enum HandshakeIntent {
         return value;
     }
 
-    public static HandshakeIntent of(int value) {
+    public static ChatPosition of(int value) {
         return Arrays.stream(values())
                 .filter(v -> v.getValue() == value)
                 .findFirst()

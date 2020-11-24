@@ -35,7 +35,7 @@ public class ProtocolBuilder {
     }
 
     public ProtocolBuilder remove(Packet packet) {
-        packets.removeIf(currentPacket -> currentPacket.getClass().isAssignableFrom(packet.getClass()));
+        packets.removeIf(currentPacket -> packet.getClass().isAssignableFrom(currentPacket.getClass()));
         return this;
     }
 

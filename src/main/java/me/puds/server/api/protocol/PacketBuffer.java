@@ -2,6 +2,7 @@ package me.puds.server.api.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import me.puds.server.api.text.TextComponent;
 import org.json.JSONObject;
 
 import java.util.UUID;
@@ -15,6 +16,10 @@ public class PacketBuffer {
 
     public PacketBuffer(ByteBuf buffer) {
         this.buffer = buffer;
+    }
+
+    public PacketBuffer(PacketBuffer buffer) {
+        this.buffer = buffer.buffer.copy();
     }
 
     public byte[] toByteArray() {
@@ -33,6 +38,10 @@ public class PacketBuffer {
 
     public void writeBytes(byte[] values) {
         buffer.writeBytes(values);
+    }
+
+    public void writeBoolean(boolean value) {
+        buffer.writeBoolean(value);
     }
 
     public void writeShort(int value) {
@@ -56,11 +65,14 @@ public class PacketBuffer {
     }
 
     public void writeString(String value) {
-        writeVarInt(value.length());
+        writeVarInt(value.getBytes().length);
         writeBytes(value.getBytes());
     }
 
-    // TODO: writeChat
+    public void writeChat(TextComponent value) {
+        writeJson(value.toJson());
+    }
+
     // TODO: writeIdentifier
 
     public void writeVarInt(int value) {
@@ -88,7 +100,31 @@ public class PacketBuffer {
     // TODO: writeEntityMetadata
     // TODO: writeSlot
     // TODO: writeNbtTag
-    // TODO: writePosition
+
+    public void writePosition(Vector3 value, boolean legacy) {
+        long x = value.getX() & 0x3FFFFFF;
+        long y = value.getY() & 0xFFF;
+        long z = value.getZ() & 0x3FFFFFF;
+
+        long encoded;
+        if (legacy) { // Positions were encoded differently before 1.14
+            encoded = (x << 38) | (y << 26) | z;
+        } else {
+            encoded = (x << 38) | (z << 12) | y;
+        }
+
+        buffer.writeLong(encoded);
+    }
+
+    public void writePosition(Vector3 value, ProtocolVersion version) {
+        boolean legacy = !version.isNewerThan(ProtocolVersion.RELEASE_1_16);
+        writePosition(value, legacy);
+    }
+
+    public void writePosition(Vector3 value) {
+        writePosition(value, false);
+    }
+
     // TODO: writeAngle
 
     public void writeUuid(UUID value) {
@@ -112,6 +148,10 @@ public class PacketBuffer {
         byte[] bytes = new byte[count];
         buffer.readBytes(bytes);
         return bytes;
+    }
+
+    public boolean readBoolean() {
+        return buffer.readBoolean();
     }
 
     public short readShort() {
@@ -143,7 +183,10 @@ public class PacketBuffer {
         return new String(bytes);
     }
 
-    // TODO: readChat
+    public TextComponent readChat() {
+        return new TextComponent(readJson());
+    }
+
     // TODO: readIdentifier
 
     public int readVarInt() {
@@ -185,7 +228,33 @@ public class PacketBuffer {
     // TODO: writeEntityMetadata
     // TODO: writeSlot
     // TODO: writeNbtTag
-    // TODO: writePosition
+
+    public Vector3 readPosition(boolean legacy) {
+        long encoded = readLong();
+
+        int x, y, z;
+        if (legacy) { // Positions were encoded differently before 1.14
+            x = (int) (encoded >> 38);
+            y = (int) ((encoded >> 26) & 0xFFF);
+            z = (int) (encoded << 38 >> 38);
+        } else {
+            x = (int) (encoded >> 38);
+            y = (int) (encoded & 0xFFF);
+            z = (int) (encoded << 26 >> 38);
+        }
+
+        return new Vector3(x, y, z);
+    }
+
+    public Vector3 readPosition(ProtocolVersion version) {
+        boolean legacy = !version.isNewerThan(ProtocolVersion.RELEASE_1_16);
+        return readPosition(legacy);
+    }
+
+    public Vector3 readPosition() {
+        return readPosition(false);
+    }
+
     // TODO: writeAngle
 
     public UUID readUuid() {

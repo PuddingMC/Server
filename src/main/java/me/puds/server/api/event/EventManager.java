@@ -21,13 +21,13 @@ public class EventManager {
                 }
 
                 Class<?> type = method.getParameterTypes()[0];
-                if (!type.isAssignableFrom(Listenable.class)) {
+                if (!Listenable.class.isAssignableFrom(type)) {
                     continue;
                 }
 
                 if (parameterCount == 2) {
-                    boolean isPacket = type.isAssignableFrom(Packet.class);
-                    boolean isConnection = method.getParameterTypes()[2].isAssignableFrom(Connection.class);
+                    boolean isPacket = Packet.class.isAssignableFrom(type);
+                    boolean isConnection = Connection.class.isAssignableFrom(method.getParameterTypes()[1]);
                     if (!isPacket || !isConnection) {
                         continue;
                     }
@@ -43,8 +43,11 @@ public class EventManager {
         }
     }
 
-    public <T extends Listenable> T callEvent(Class<T> clazz, T event, Connection connection) {
+    public <T extends Listenable> T callEvent(Class<? extends Listenable> clazz, T event, Connection connection) {
         List<HandlerObject> handlers = this.handlers.get(clazz);
+        if (handlers == null) {
+            return event;
+        }
 
         Comparator<HandlerObject> comparator = Comparator.comparing(h -> h.getHandler().priority());
         List<HandlerObject> sortedHandlers = handlers.stream().sorted(comparator).collect(Collectors.toList());

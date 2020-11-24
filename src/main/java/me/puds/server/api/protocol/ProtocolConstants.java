@@ -1,11 +1,22 @@
 package me.puds.server.api.protocol;
 
 import me.puds.server.api.protocol.client.HandshakePacket;
+import me.puds.server.api.protocol.client.LoginStartPacket;
+import me.puds.server.api.protocol.client.StatusPingPacket;
+import me.puds.server.api.protocol.client.StatusRequestPacket;
 
 public class ProtocolConstants {
+    public static final Protocol STATUS_ONLY = ProtocolBuilder.builder()
+            .version(ProtocolVersion.UNSUPPORTED)
+            .packet(new HandshakePacket())
+            .packet(new LoginStartPacket())
+            .packet(new StatusPingPacket())
+            .packet(new StatusRequestPacket())
+            .build();
+
     public static final Protocol V47 = ProtocolBuilder.builder()
             .version(ProtocolVersion.RELEASE_1_8)
-            .packet(new HandshakePacket())
+            .inherit(STATUS_ONLY)
             .build();
 
     public static final Protocol V340 = ProtocolBuilder.builder()
@@ -106,5 +117,10 @@ public class ProtocolConstants {
     public static final Protocol V1073741829 = ProtocolBuilder.builder()
             .version(ProtocolVersion.SNAPSHOT_20W45A)
             .inherit(V754)
+            .build();
+
+    public static final Protocol V1073741830 = ProtocolBuilder.builder()
+            .version(ProtocolVersion.SNAPSHOT_20W46A)
+            .inherit(V1073741829)
             .build();
 }
