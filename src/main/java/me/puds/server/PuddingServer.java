@@ -1,20 +1,20 @@
 package me.puds.server;
 
-import me.puds.server.api.Logger;
 import me.puds.server.api.Server;
-import me.puds.server.listener.packet.*;
+import me.puds.server.listener.packet.HandshakeListener;
+import me.puds.server.listener.packet.LoginStartListener;
+import me.puds.server.listener.packet.StatusPingListener;
+import me.puds.server.listener.packet.StatusRequestListener;
 import me.puds.server.netty.NettyServer;
+import me.puds.server.tick.TickLoop;
 
 public class PuddingServer {
     private static final String name = "PuddingServer";
     private static final String version = "1.0"; // TODO: Get this dynamically from Gradle
-    private static Logger logger;
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
-
-        logger = new Logger("Server");
-        logger.info("Starting " + name + " v" + version + "");
+        Server.getLogger().info("Starting " + name + " v" + version + "");
 
         Server.getEventManager().registerListener(new HandshakeListener());
         Server.getEventManager().registerListener(new LoginStartListener());
@@ -25,7 +25,10 @@ public class PuddingServer {
         server.start();
 
         long elapsedTime = System.currentTimeMillis() - startTime;
-        logger.info("Done! (" + elapsedTime / 1000.0 + "s)");
+        Server.getLogger().info("Done! (" + elapsedTime / 1000.0 + "s)");
+
+        TickLoop loop = new TickLoop();
+        loop.start();
     }
 
     public static String getName() {
@@ -34,9 +37,5 @@ public class PuddingServer {
 
     public static String getVersion() {
         return version;
-    }
-
-    public static Logger getLogger() {
-        return logger;
     }
 }

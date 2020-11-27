@@ -1,7 +1,11 @@
 package me.puds.server.api.protocol;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.puds.server.api.event.Listenable;
 
+@Getter
+@Setter
 public abstract class Packet implements Listenable {
     private boolean canceled = false;
 
@@ -11,14 +15,4 @@ public abstract class Packet implements Listenable {
 
     public abstract void fromBuffer(ProtocolVersion version, PacketBuffer buffer);
     public abstract PacketBuffer toBuffer(ProtocolVersion version);
-
-    @Override
-    public boolean isCanceled() {
-        return canceled;
-    }
-
-    @Override
-    public void setCanceled(boolean canceled) {
-        this.canceled = canceled;
-    }
 }

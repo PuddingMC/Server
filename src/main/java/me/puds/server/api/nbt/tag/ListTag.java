@@ -1,7 +1,7 @@
 package me.puds.server.api.nbt.tag;
 
 import io.netty.buffer.ByteBuf;
-import me.puds.server.PuddingServer;
+import me.puds.server.api.Server;
 import me.puds.server.api.nbt.NbtTag;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class ListTag<T extends NbtTag<?>> extends NbtTag<List<T>> {
         byte typeId = buffer.readByte();
         NbtTag<?> tagType = NbtTag.createTagInstance(typeId);
         if (tagType == null) {
-            PuddingServer.getLogger().warn("Invalid NBT list type " + typeId + ".");
+            Server.getLogger().warn("Invalid NBT list type " + typeId + ".");
             return;
         }
 

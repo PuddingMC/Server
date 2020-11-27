@@ -1,21 +1,11 @@
 package me.puds.server.api.text;
 
+import lombok.Data;
+
+@Data
 public class TextClickResponse {
     private final String action;
     private final Object value;
-
-    public TextClickResponse(String action, Object value) {
-        this.action = action;
-        this.value = value;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public Object getValue() {
-        return value;
-    }
 
     public static TextClickResponse openUrl(String url) {
         return new TextClickResponse("open_url", url);

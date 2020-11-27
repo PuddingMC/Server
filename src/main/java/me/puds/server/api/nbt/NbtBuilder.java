@@ -2,18 +2,16 @@ package me.puds.server.api.nbt;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import lombok.RequiredArgsConstructor;
 import me.puds.server.api.nbt.tag.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class NbtBuilder {
     private final ByteBuf buffer;
-
-    private NbtBuilder(ByteBuf buffer) {
-        this.buffer = buffer;
-    }
 
     private NbtBuilder() {
         this.buffer = Unpooled.buffer();

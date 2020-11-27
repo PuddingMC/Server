@@ -1,11 +1,10 @@
 package me.puds.server.api.text;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class TextBuilder {
     private final TextComponent component;
-
-    private TextBuilder(TextComponent component) {
-        this.component = component;
-    }
 
     private TextBuilder() {
         component = new TextComponent();

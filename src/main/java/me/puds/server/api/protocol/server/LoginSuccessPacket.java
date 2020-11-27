@@ -1,9 +1,15 @@
 package me.puds.server.api.protocol.server;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.puds.server.api.protocol.*;
 
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class LoginSuccessPacket extends Packet {
     private UUID uniqueId;
     private String name;
@@ -11,11 +17,6 @@ public class LoginSuccessPacket extends Packet {
     public LoginSuccessPacket() {
         uniqueId = new UUID(0, 0);
         name = "";
-    }
-
-    public LoginSuccessPacket(UUID uniqueId, String name) {
-        this.uniqueId = uniqueId;
-        this.name = name;
     }
 
     @Override
@@ -53,21 +54,5 @@ public class LoginSuccessPacket extends Packet {
         }
         buffer.writeString(name);
         return buffer;
-    }
-
-    public UUID getUniqueId() {
-        return uniqueId;
-    }
-
-    public void setUniqueId(UUID uniqueId) {
-        this.uniqueId = uniqueId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

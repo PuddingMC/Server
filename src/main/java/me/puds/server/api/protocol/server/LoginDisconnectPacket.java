@@ -1,17 +1,19 @@
 package me.puds.server.api.protocol.server;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.puds.server.api.protocol.*;
 import me.puds.server.api.text.TextComponent;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class LoginDisconnectPacket extends Packet {
     private TextComponent reason;
 
     public LoginDisconnectPacket() {
         reason = new TextComponent();
-    }
-
-    public LoginDisconnectPacket(TextComponent reason) {
-        this.reason = reason;
     }
 
     @Override
@@ -39,13 +41,5 @@ public class LoginDisconnectPacket extends Packet {
         PacketBuffer buffer = new PacketBuffer();
         buffer.writeChat(reason);
         return buffer;
-    }
-
-    public TextComponent getReason() {
-        return reason;
-    }
-
-    public void setReason(TextComponent reason) {
-        this.reason = reason;
     }
 }

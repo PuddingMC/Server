@@ -1,11 +1,19 @@
 package me.puds.server.api.nbt;
 
 import io.netty.buffer.ByteBuf;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import me.puds.server.api.nbt.tag.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public abstract class NbtTag<T> {
     // This list must be in order based on tag type ID
     private static final List<Class<?>> TAG_TYPES = List.of(
@@ -32,30 +40,6 @@ public abstract class NbtTag<T> {
 
     public abstract void write(ByteBuf buffer);
     public abstract void read(ByteBuf buffer);
-
-    public NbtTag(String name, T value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public NbtTag() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public T getValue() {
-        return value;
-    }
-
-    public void setValue(T value) {
-        this.value = value;
-    }
 
     public static NbtTag<?> createTagInstance(int typeId) {
         if (typeId + 1 > TAG_TYPES.size()) {

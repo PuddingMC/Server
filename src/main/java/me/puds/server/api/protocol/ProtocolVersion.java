@@ -1,7 +1,12 @@
 package me.puds.server.api.protocol;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.util.Arrays;
 
+@RequiredArgsConstructor
+@Getter
 public enum ProtocolVersion {
     UNSUPPORTED(-1, "unsupported", ProtocolConstants.STATUS_ONLY),
     RELEASE_1_8(47, "1.8", ProtocolConstants.V47), // All 1.8.x versions use the same protocol version
@@ -25,32 +30,15 @@ public enum ProtocolVersion {
     SNAPSHOT_1_16_4_RC1(1073741827, "1.16.4-rc1", ProtocolConstants.V1073741827),
     RELEASE_1_16_4(754, "1.16.4", ProtocolConstants.V754),
     SNAPSHOT_20W45A(1073741829, "20w45a", ProtocolConstants.V1073741829), // 1.17
-    SNAPSHOT_20W46A(1073741830, "20w46a", ProtocolConstants.V1073741830); // 1.17
+    SNAPSHOT_20W46A(1073741830, "20w46a", ProtocolConstants.V1073741830), // 1.17
+    SNAPSHOT_20W48A(1073741831, "20w48a", ProtocolConstants.V1073741831); // 1.17
 
     private final int version;
     private final String displayName;
     private final Protocol protocol;
 
-    ProtocolVersion(int version, String displayName, Protocol protocol) {
-        this.version = version;
-        this.displayName = displayName;
-        this.protocol = protocol;
-    }
-
     public boolean isNewerThan(ProtocolVersion other) {
         return ordinal() >= other.ordinal();
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public Protocol getProtocol() {
-        return protocol;
     }
 
     public static ProtocolVersion of(int version) {

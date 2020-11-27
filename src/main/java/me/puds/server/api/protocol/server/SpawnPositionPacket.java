@@ -1,17 +1,19 @@
 package me.puds.server.api.protocol.server;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.puds.server.api.protocol.Vector3;
 import me.puds.server.api.protocol.*;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class SpawnPositionPacket extends Packet {
     private Vector3 location;
 
     public SpawnPositionPacket() {
         location = new Vector3();
-    }
-
-    public SpawnPositionPacket(Vector3 location) {
-        this.location = location;
     }
 
     @Override
@@ -45,13 +47,5 @@ public class SpawnPositionPacket extends Packet {
         PacketBuffer buffer = new PacketBuffer();
         buffer.writePosition(location, version);
         return buffer;
-    }
-
-    public Vector3 getLocation() {
-        return location;
-    }
-
-    public void setLocation(Vector3 location) {
-        this.location = location;
     }
 }

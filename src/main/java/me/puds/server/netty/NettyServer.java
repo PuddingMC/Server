@@ -2,21 +2,18 @@ package me.puds.server.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import me.puds.server.PuddingServer;
+import lombok.RequiredArgsConstructor;
+import me.puds.server.api.Server;
 
 import java.net.BindException;
 
+@RequiredArgsConstructor
 public class NettyServer {
     private final int port;
-
-    public NettyServer(int port) {
-        this.port = port;
-    }
 
     @SuppressWarnings("ConstantConditions")
     public void start() {
@@ -35,14 +32,14 @@ public class NettyServer {
             future = bootstrap.bind(port).sync();
         } catch (Exception e) {
             if (e instanceof BindException) {
-                PuddingServer.getLogger().fatal("Failed to bind to port " + port + ". Is it already in use?");
+                Server.getLogger().fatal("Failed to bind to port " + port + ". Is it already in use?");
             } else {
-                PuddingServer.getLogger().fatal("An unexpected error occurred while binding the port", e);
+                Server.getLogger().fatal("An unexpected error occurred while binding the port", e);
             }
             return;
         }
 
-        PuddingServer.getLogger().info("Listening on " + "*:" + port);
+        Server.getLogger().info("Listening on " + "*:" + port);
 
         future.channel().closeFuture().addListener(f -> {
             workerGroup.shutdownGracefully();

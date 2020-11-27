@@ -1,15 +1,17 @@
 package me.puds.server.api.protocol;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProtocolBuilder {
     private final List<Packet> packets = new ArrayList<>();
     private ProtocolVersion version;
-
-    private ProtocolBuilder() {}
 
     public static ProtocolBuilder builder() {
         return new ProtocolBuilder();

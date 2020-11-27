@@ -1,7 +1,8 @@
 package me.puds.server.api.nbt;
 
 import io.netty.buffer.ByteBuf;
-import me.puds.server.PuddingServer;
+import lombok.Getter;
+import me.puds.server.api.Server;
 import me.puds.server.api.nbt.tag.*;
 
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class NbtCompound {
-    private final ByteBuf buffer;
-    private final String name;
+    @Getter private final ByteBuf buffer;
+    @Getter private final String name;
     private final Map<String, NbtTag<?>> data = new HashMap<>();
 
     public NbtCompound(ByteBuf buffer) {
@@ -28,7 +29,7 @@ public class NbtCompound {
             String tagName = readString();
             NbtTag<?> instance = NbtTag.createTagInstance(typeId);
             if (instance == null) {
-                PuddingServer.getLogger().warn("Invalid NBT type " + typeId + ".");
+                Server.getLogger().warn("Invalid NBT type " + typeId + ".");
                 return;
             }
             instance.read(buffer);
@@ -142,14 +143,6 @@ public class NbtCompound {
 
     public NbtBuilder getBuilder() {
         return NbtBuilder.builder(buffer);
-    }
-
-    public ByteBuf getBuffer() {
-        return buffer;
-    }
-
-    public String getName() {
-        return name;
     }
 
     private String readString() {

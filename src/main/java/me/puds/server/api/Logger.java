@@ -1,15 +1,14 @@
 package me.puds.server.api;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 // TODO: System.setOut
+@Data
 public class Logger {
     private final String name;
-
-    public Logger(String name) {
-        this.name = name;
-    }
 
     public void log(LogLevel level, Object message) {
         String finalMessage = message.toString();
@@ -57,9 +56,5 @@ public class Logger {
     public void fatal(Object message, Throwable throwable) {
         fatal(message);
         throwable.printStackTrace();
-    }
-
-    public String getName() {
-        return name;
     }
 }

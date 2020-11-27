@@ -3,11 +3,13 @@ package me.puds.server.api.protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import lombok.Data;
 import me.puds.server.api.protocol.server.LoginDisconnectPacket;
 import me.puds.server.api.text.TextComponent;
 
 import java.net.InetSocketAddress;
 
+@Data
 public class Connection {
     private final InetSocketAddress address;
     private final ProtocolVersion protocolVersion;
@@ -16,12 +18,6 @@ public class Connection {
     private String serverAddress = "";
     private int serverPort = 0;
     private ConnectionState state = ConnectionState.HANDSHAKING;
-
-    public Connection(InetSocketAddress address, ProtocolVersion protocolVersion, Channel channel) {
-        this.address = address;
-        this.protocolVersion = protocolVersion;
-        this.channel = channel;
-    }
 
     public void sendPacket(Packet packet) {
         // Hacky workaround to get the final buffer size
@@ -48,41 +44,5 @@ public class Connection {
             // TODO: Send disconnect packet
         }
         channel.disconnect();
-    }
-
-    public InetSocketAddress getAddress() {
-        return address;
-    }
-
-    public ProtocolVersion getProtocolVersion() {
-        return protocolVersion;
-    }
-
-    public String getServerAddress() {
-        return serverAddress;
-    }
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setServerAddress(String serverAddress) {
-        this.serverAddress = serverAddress;
-    }
-
-    public int getServerPort() {
-        return serverPort;
-    }
-
-    public void setServerPort(int serverPort) {
-        this.serverPort = serverPort;
-    }
-
-    public ConnectionState getState() {
-        return state;
-    }
-
-    public void setState(ConnectionState state) {
-        this.state = state;
     }
 }

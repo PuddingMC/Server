@@ -1,5 +1,10 @@
 package me.puds.server.api.text;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Getter
 public enum TextColor {
     BLACK('0', 30),
     DARK_BLUE('1', 34),
@@ -29,21 +34,8 @@ public enum TextColor {
     private final char character;
     private final int ansi;
 
-    TextColor(char character, int ansi) {
-        this.character = character;
-        this.ansi = ansi;
-    }
-
     @Override
     public String toString() {
         return COLOR_CHAR + "" + character;
-    }
-
-    public char getCharacter() {
-        return character;
-    }
-
-    public int getAnsi() {
-        return ansi;
     }
 }

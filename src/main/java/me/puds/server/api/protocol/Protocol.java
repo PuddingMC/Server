@@ -1,13 +1,12 @@
 package me.puds.server.api.protocol;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.Map;
 
+@RequiredArgsConstructor
 public class Protocol {
     private final Map<ConnectionState, Map<PacketSender, Map<Integer, Packet>>> packets;
-
-    public Protocol(Map<ConnectionState, Map<PacketSender, Map<Integer, Packet>>> packets) {
-        this.packets = packets;
-    }
 
     public boolean hasPacket(ConnectionState state, PacketSender sender, int packetId) {
         if (!packets.containsKey(state)) {

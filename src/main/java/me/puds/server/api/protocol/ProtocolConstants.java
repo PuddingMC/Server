@@ -123,4 +123,9 @@ public class ProtocolConstants {
             .version(ProtocolVersion.SNAPSHOT_20W46A)
             .inherit(V1073741829)
             .build();
+
+    public static final Protocol V1073741831 = ProtocolBuilder.builder()
+            .version(ProtocolVersion.SNAPSHOT_20W48A)
+            .inherit(V1073741830)
+            .build();
 }

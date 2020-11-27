@@ -1,7 +1,13 @@
 package me.puds.server.api.protocol.client;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.puds.server.api.protocol.*;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class StatusRequestPacket extends Packet {
     @Override
     public int getPacketId(ProtocolVersion version) {

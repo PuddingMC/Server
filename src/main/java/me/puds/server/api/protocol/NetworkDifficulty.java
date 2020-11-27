@@ -1,8 +1,13 @@
-package me.puds.server.api;
+package me.puds.server.api.protocol;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
-public enum Difficulty {
+@RequiredArgsConstructor
+@Getter
+public enum NetworkDifficulty {
     PEACEFUL(0),
     EASY(1),
     NORMAL(2),
@@ -10,15 +15,7 @@ public enum Difficulty {
 
     private final int value;
 
-    Difficulty(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public static Difficulty of(int value) {
+    public static NetworkDifficulty of(int value) {
         return Arrays.stream(values())
                 .filter(v -> v.getValue() == value)
                 .findFirst()

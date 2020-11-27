@@ -1,17 +1,19 @@
 package me.puds.server.api.protocol.server;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.puds.server.api.PingResponse;
 import me.puds.server.api.protocol.*;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class StatusResponsePacket extends Packet {
     private PingResponse response;
 
     public StatusResponsePacket() {
         response = new PingResponse();
-    }
-
-    public StatusResponsePacket(PingResponse response) {
-        this.response = response;
     }
 
     @Override
@@ -39,13 +41,5 @@ public class StatusResponsePacket extends Packet {
         PacketBuffer buffer = new PacketBuffer();
         buffer.writeJson(response.toJson());
         return buffer;
-    }
-
-    public PingResponse getResponse() {
-        return response;
-    }
-
-    public void setResponse(PingResponse response) {
-        this.response = response;
     }
 }

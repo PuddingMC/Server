@@ -3,7 +3,6 @@ package me.puds.server.netty;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import me.puds.server.PuddingServer;
 import me.puds.server.api.Server;
 import me.puds.server.api.protocol.*;
 
@@ -30,7 +29,7 @@ public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
             Connection connection = new Connection(address, protocolVersion, ctx.channel());
             Server.getConnections().put(address, connection);
 
-            PuddingServer.getLogger().info("Accepted connection from " + address);
+            Server.getLogger().info("Accepted connection from " + address);
         }
 
         Connection connection = Server.getConnections().get(address);

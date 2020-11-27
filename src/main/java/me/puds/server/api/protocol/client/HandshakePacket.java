@@ -1,7 +1,13 @@
 package me.puds.server.api.protocol.client;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.puds.server.api.protocol.*;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class HandshakePacket extends Packet {
     private int protocolVersion;
     private String serverAddress;
@@ -13,13 +19,6 @@ public class HandshakePacket extends Packet {
         serverAddress = "";
         serverPort = 0;
         nextState = HandshakeIntent.STATUS;
-    }
-
-    public HandshakePacket(int protocolVersion, String serverAddress, int serverPort, HandshakeIntent nextState) {
-        this.protocolVersion = protocolVersion;
-        this.serverAddress = serverAddress;
-        this.serverPort = serverPort;
-        this.nextState = nextState;
     }
 
     @Override
@@ -53,37 +52,5 @@ public class HandshakePacket extends Packet {
         buffer.writeShort(serverPort);
         buffer.writeVarInt(nextState.getValue());
         return buffer;
-    }
-
-    public int getProtocolVersion() {
-        return protocolVersion;
-    }
-
-    public void setProtocolVersion(int protocolVersion) {
-        this.protocolVersion = protocolVersion;
-    }
-
-    public String getServerAddress() {
-        return serverAddress;
-    }
-
-    public void setServerAddress(String serverAddress) {
-        this.serverAddress = serverAddress;
-    }
-
-    public int getServerPort() {
-        return serverPort;
-    }
-
-    public void setServerPort(int serverPort) {
-        this.serverPort = serverPort;
-    }
-
-    public HandshakeIntent getNextState() {
-        return nextState;
-    }
-
-    public void setNextState(HandshakeIntent nextState) {
-        this.nextState = nextState;
     }
 }

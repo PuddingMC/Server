@@ -1,9 +1,11 @@
 package me.puds.server.api;
 
+import lombok.Getter;
 import me.puds.server.api.protocol.Connection;
 
 import java.util.UUID;
 
+@Getter
 public class Player extends Connection {
     private final UUID uniqueId;
     private final String name;
@@ -13,13 +15,5 @@ public class Player extends Connection {
 
         this.uniqueId = uniqueId;
         this.name = name;
-    }
-
-    public UUID getUniqueId() {
-        return uniqueId;
-    }
-
-    public String getName() {
-        return name;
     }
 }

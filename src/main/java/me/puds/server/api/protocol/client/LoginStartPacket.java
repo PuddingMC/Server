@@ -1,16 +1,18 @@
 package me.puds.server.api.protocol.client;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.puds.server.api.protocol.*;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class LoginStartPacket extends Packet {
     private String name;
 
     public LoginStartPacket() {
         name = "";
-    }
-
-    public LoginStartPacket(String name) {
-        this.name = name;
     }
 
     @Override
@@ -38,13 +40,5 @@ public class LoginStartPacket extends Packet {
         PacketBuffer buffer = new PacketBuffer();
         buffer.writeString(name);
         return buffer;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

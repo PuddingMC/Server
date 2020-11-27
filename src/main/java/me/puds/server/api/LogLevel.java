@@ -1,7 +1,11 @@
 package me.puds.server.api;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import me.puds.server.api.text.TextColor;
 
+@RequiredArgsConstructor
+@Getter
 public enum LogLevel {
     DEBUG("Debug", TextColor.GRAY),
     INFO("Info", TextColor.AQUA),
@@ -11,17 +15,4 @@ public enum LogLevel {
 
     private final String displayName;
     private final TextColor color;
-
-    LogLevel(String displayName, TextColor color) {
-        this.displayName = displayName;
-        this.color = color;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public TextColor getColor() {
-        return color;
-    }
 }

@@ -1,21 +1,18 @@
-package me.puds.server.api;
+package me.puds.server.api.protocol;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
+@RequiredArgsConstructor
+@Getter
 public enum ChatPosition {
     CHAT(0),
     SYSTEM_MESSAGE(1),
     GAME_INFO(2);
 
     private final int value;
-
-    ChatPosition(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
 
     public static ChatPosition of(int value) {
         return Arrays.stream(values())

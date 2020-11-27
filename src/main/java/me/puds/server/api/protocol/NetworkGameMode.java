@@ -1,8 +1,13 @@
-package me.puds.server.api;
+package me.puds.server.api.protocol;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
-public enum Gamemode {
+@RequiredArgsConstructor
+@Getter
+public enum NetworkGameMode {
     NONE(-1),
     SURVIVAL(0),
     CREATIVE(2),
@@ -11,15 +16,7 @@ public enum Gamemode {
 
     private final int value;
 
-    Gamemode(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public static Gamemode of(int value) {
+    public static NetworkGameMode of(int value) {
         return Arrays.stream(values())
                 .filter(v -> v.getValue() == value)
                 .findFirst()

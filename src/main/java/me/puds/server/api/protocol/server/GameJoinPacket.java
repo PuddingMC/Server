@@ -1,16 +1,22 @@
 package me.puds.server.api.protocol.server;
 
-import me.puds.server.api.Difficulty;
-import me.puds.server.api.Gamemode;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import me.puds.server.api.protocol.NetworkDifficulty;
+import me.puds.server.api.protocol.NetworkGameMode;
 import me.puds.server.api.protocol.*;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class GameJoinPacket extends Packet {
     private int entityId;
     private boolean hardcore;
-    private Gamemode gamemode;
-    private Gamemode previousGamemode;
+    private NetworkGameMode gameMode;
+    private NetworkGameMode previousGameMode;
     // TODO: World and dimension stuff
-    private Difficulty difficulty;
+    private NetworkDifficulty difficulty;
     private int maxPlayers;
     private int viewDistance;
     private boolean reducedDebugInfo;
@@ -21,32 +27,16 @@ public class GameJoinPacket extends Packet {
     public GameJoinPacket() {
         entityId = 0;
         hardcore = false;
-        gamemode = Gamemode.SURVIVAL;
-        previousGamemode = Gamemode.NONE;
+        gameMode = NetworkGameMode.SURVIVAL;
+        previousGameMode = NetworkGameMode.NONE;
         // TODO: World and dimension stuff
-        difficulty = Difficulty.PEACEFUL;
+        difficulty = NetworkDifficulty.PEACEFUL;
         maxPlayers = 0;
         viewDistance = 0;
         reducedDebugInfo = false;
         respawnScreen = false;
         debug = false;
         flat = false;
-    }
-
-    public GameJoinPacket(int entityId, boolean hardcore, Gamemode gamemode, Gamemode previousGamemode,
-                          Difficulty difficulty, int maxPlayers, int viewDistance, boolean reducedDebugInfo,
-                          boolean respawnScreen, boolean debug, boolean flat) {
-        this.entityId = entityId;
-        this.hardcore = hardcore;
-        this.gamemode = gamemode;
-        this.previousGamemode = previousGamemode;
-        this.difficulty = difficulty;
-        this.maxPlayers = maxPlayers;
-        this.viewDistance = viewDistance;
-        this.reducedDebugInfo = reducedDebugInfo;
-        this.respawnScreen = respawnScreen;
-        this.debug = debug;
-        this.flat = flat;
     }
 
     @Override
@@ -76,13 +66,13 @@ public class GameJoinPacket extends Packet {
             // TODO: 1.16 implementation
         } else {
             entityId = buffer.readInt();
-            gamemode = Gamemode.of(buffer.readUnsignedByte());
+            gameMode = NetworkGameMode.of(buffer.readUnsignedByte());
             if (version.isNewerThan(ProtocolVersion.RELEASE_1_12_2)) {
                 buffer.readInt(); // TODO: Dimension
             } else {
                 buffer.readByte(); // TODO: Dimension
             }
-            difficulty = Difficulty.of(buffer.readUnsignedByte());
+            difficulty = NetworkDifficulty.of(buffer.readUnsignedByte());
             maxPlayers = buffer.readUnsignedByte();
             buffer.readString(); // TODO: Level type
             reducedDebugInfo = buffer.readBoolean();
@@ -96,7 +86,7 @@ public class GameJoinPacket extends Packet {
             // TODO: 1.16 implementation
         } else {
             buffer.writeInt(entityId);
-            buffer.writeByte(gamemode.getValue());
+            buffer.writeByte(gameMode.getValue());
             if (version.isNewerThan(ProtocolVersion.RELEASE_1_12_2)) {
                 buffer.writeInt(0); // TODO: Dimension
             } else {
@@ -108,95 +98,5 @@ public class GameJoinPacket extends Packet {
             buffer.writeBoolean(reducedDebugInfo);
         }
         return buffer;
-    }
-
-    public int getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
-    }
-
-    public boolean isHardcore() {
-        return hardcore;
-    }
-
-    public void setHardcore(boolean hardcore) {
-        this.hardcore = hardcore;
-    }
-
-    public Gamemode getGamemode() {
-        return gamemode;
-    }
-
-    public void setGamemode(Gamemode gamemode) {
-        this.gamemode = gamemode;
-    }
-
-    public Gamemode getPreviousGamemode() {
-        return previousGamemode;
-    }
-
-    public void setPreviousGamemode(Gamemode previousGamemode) {
-        this.previousGamemode = previousGamemode;
-    }
-
-    // TODO: World and dimension stuff
-
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
-
-    public void setMaxPlayers(int maxPlayers) {
-        this.maxPlayers = maxPlayers;
-    }
-
-    public int getViewDistance() {
-        return viewDistance;
-    }
-
-    public void setViewDistance(int viewDistance) {
-        this.viewDistance = viewDistance;
-    }
-
-    public boolean isReducedDebugInfo() {
-        return reducedDebugInfo;
-    }
-
-    public void setReducedDebugInfo(boolean reducedDebugInfo) {
-        this.reducedDebugInfo = reducedDebugInfo;
-    }
-
-    public boolean isRespawnScreen() {
-        return respawnScreen;
-    }
-
-    public void setRespawnScreen(boolean respawnScreen) {
-        this.respawnScreen = respawnScreen;
-    }
-
-    public boolean isDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
-
-    public boolean isFlat() {
-        return flat;
-    }
-
-    public void setFlat(boolean flat) {
-        this.flat = flat;
     }
 }

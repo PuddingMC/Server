@@ -1,11 +1,17 @@
 package me.puds.server.api.protocol.server;
 
-import me.puds.server.api.ChatPosition;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import me.puds.server.api.protocol.ChatPosition;
 import me.puds.server.api.protocol.*;
 import me.puds.server.api.text.TextComponent;
 
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@Data
 public class ServerChatMessagePacket extends Packet {
     private TextComponent message;
     private ChatPosition position;
@@ -15,12 +21,6 @@ public class ServerChatMessagePacket extends Packet {
         message = new TextComponent();
         position = ChatPosition.CHAT;
         chatSender = new UUID(0, 0);
-    }
-
-    public ServerChatMessagePacket(TextComponent message, ChatPosition position, UUID chatSender) {
-        this.message = message;
-        this.position = position;
-        this.chatSender = chatSender;
     }
 
     @Override
@@ -62,29 +62,5 @@ public class ServerChatMessagePacket extends Packet {
             buffer.writeUuid(chatSender);
         }
         return buffer;
-    }
-
-    public TextComponent getMessage() {
-        return message;
-    }
-
-    public void setMessage(TextComponent message) {
-        this.message = message;
-    }
-
-    public ChatPosition getPosition() {
-        return position;
-    }
-
-    public void setPosition(ChatPosition position) {
-        this.position = position;
-    }
-
-    public UUID getChatSender() {
-        return chatSender;
-    }
-
-    public void setChatSender(UUID sender) {
-        this.chatSender = sender;
     }
 }

@@ -1,5 +1,7 @@
 package me.puds.server.api;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,24 +13,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+@NoArgsConstructor
+@Data
 public class PingResponse {
-    private String versionName;
-    private int protocol;
-    private int maxPlayers;
-    private int onlinePlayers;
-    private Map<String, UUID> playerSample;
-    private String description; // TODO: Make this a proper chat component type
-    private Image icon;
-
-    public PingResponse() {
-        versionName = "";
-        protocol = 0;
-        maxPlayers = 0;
-        onlinePlayers = 0;
-        playerSample = new LinkedHashMap<>();
-        description = "";
-        icon = null;
-    }
+    private String versionName = "";
+    private int protocol = 0;
+    private int maxPlayers = 0;
+    private int onlinePlayers = 0;
+    private Map<String, UUID> playerSample = new LinkedHashMap<>();
+    private String description = ""; // TODO: Make this a proper chat component type
+    private Image icon = null;
 
     public PingResponse(JSONObject json) {
         JSONObject versionObject = json.getJSONObject("version");
@@ -90,61 +84,5 @@ public class PingResponse {
         }
 
         return new JSONObject(map);
-    }
-
-    public String getVersionName() {
-        return versionName;
-    }
-
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
-    }
-
-    public int getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(int protocol) {
-        this.protocol = protocol;
-    }
-
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
-
-    public void setMaxPlayers(int maxPlayers) {
-        this.maxPlayers = maxPlayers;
-    }
-
-    public int getOnlinePlayers() {
-        return onlinePlayers;
-    }
-
-    public void setOnlinePlayers(int onlinePlayers) {
-        this.onlinePlayers = onlinePlayers;
-    }
-
-    public Map<String, UUID> getPlayerSample() {
-        return playerSample;
-    }
-
-    public void setPlayerSample(Map<String, UUID> playerSample) {
-        this.playerSample = playerSample;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Image getIcon() {
-        return icon;
-    }
-
-    public void setIcon(Image icon) {
-        this.icon = icon;
     }
 }

@@ -1,20 +1,17 @@
 package me.puds.server.api.protocol;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.util.Arrays;
 
+@RequiredArgsConstructor
+@Getter
 public enum HandshakeIntent {
     STATUS(1),
     LOGIN(2);
 
     private final int value;
-
-    HandshakeIntent(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
 
     public static HandshakeIntent of(int value) {
         return Arrays.stream(values())

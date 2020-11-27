@@ -2,20 +2,18 @@ package me.puds.server.api.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import lombok.RequiredArgsConstructor;
 import me.puds.server.api.text.TextComponent;
 import org.json.JSONObject;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class PacketBuffer {
     private final ByteBuf buffer;
 
     public PacketBuffer() {
         this.buffer = Unpooled.buffer();
-    }
-
-    public PacketBuffer(ByteBuf buffer) {
-        this.buffer = buffer;
     }
 
     public PacketBuffer(PacketBuffer buffer) {

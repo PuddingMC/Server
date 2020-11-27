@@ -1,5 +1,7 @@
 package me.puds.server.api.text;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -7,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NoArgsConstructor
+@Data
 public class TextComponent {
     private String text = "";
 
@@ -22,8 +26,6 @@ public class TextComponent {
     private TextHoverResponse hoverEvent = null;
 
     private final List<TextComponent> extras = new ArrayList<>();
-
-    public TextComponent() {}
 
     public TextComponent(String text) {
         this.text = text;
@@ -102,90 +104,6 @@ public class TextComponent {
 
     public TextBuilder getBuilder() {
         return TextBuilder.builder(this);
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public boolean isBolded() {
-        return bolded;
-    }
-
-    public void setBolded(boolean bolded) {
-        this.bolded = bolded;
-    }
-
-    public boolean isItalicized() {
-        return italicized;
-    }
-
-    public void setItalicized(boolean italicized) {
-        this.italicized = italicized;
-    }
-
-    public boolean isUnderlined() {
-        return underlined;
-    }
-
-    public void setUnderlined(boolean underlined) {
-        this.underlined = underlined;
-    }
-
-    public boolean isStruckthrough() {
-        return struckthrough;
-    }
-
-    public void setStruckthrough(boolean struckthrough) {
-        this.struckthrough = struckthrough;
-    }
-
-    public boolean isObfuscated() {
-        return obfuscated;
-    }
-
-    public void setObfuscated(boolean obfuscated) {
-        this.obfuscated = obfuscated;
-    }
-
-    public TextColor getColor() {
-        return color;
-    }
-
-    public void setColor(TextColor color) {
-        this.color = color;
-    }
-
-    public String getInsertion() {
-        return insertion;
-    }
-
-    public void setInsertion(String insertion) {
-        this.insertion = insertion;
-    }
-
-    public TextClickResponse getClickEvent() {
-        return clickEvent;
-    }
-
-    public void setClickEvent(TextClickResponse clickEvent) {
-        this.clickEvent = clickEvent;
-    }
-
-    public TextHoverResponse getHoverEvent() {
-        return hoverEvent;
-    }
-
-    public void setHoverEvent(TextHoverResponse hoverEvent) {
-        this.hoverEvent = hoverEvent;
-    }
-
-    public List<TextComponent> getExtras() {
-        return extras;
     }
 
     public void addExtra(TextComponent extra) {

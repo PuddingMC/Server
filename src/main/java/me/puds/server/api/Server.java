@@ -1,7 +1,9 @@
 package me.puds.server.api;
 
+import lombok.Getter;
 import me.puds.server.api.event.EventManager;
 import me.puds.server.api.protocol.Connection;
+import me.puds.server.tick.ComponentManager;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -10,18 +12,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Server {
-    private static final EventManager eventManager = new EventManager();
-    private static final Map<InetSocketAddress, Connection> connections = new HashMap<>();
+    @Getter private static final EventManager eventManager = new EventManager();
+    @Getter private static final ComponentManager componentManager = new ComponentManager();
+
+    @Getter private static final Logger logger = new Logger("Server");
+    @Getter private static final Map<InetSocketAddress, Connection> connections = new HashMap<>();
 
     private static int nextEntityId = 0;
-
-    public static EventManager getEventManager() {
-        return eventManager;
-    }
-
-    public static Map<InetSocketAddress, Connection> getConnections() {
-        return connections;
-    }
 
     public static List<Player> getOnlinePlayers() {
         return connections.values().stream()
