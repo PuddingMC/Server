@@ -1,24 +1,15 @@
-plugins {
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
-    id 'java'
-    id 'io.freefair.lombok' version '5.3.0'
-}
+subprojects {
+    apply plugin: 'java'
 
-group 'me.puds'
-version '1.0-SNAPSHOT'
+    group 'me.puds'
+    version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'io.netty:netty-all:4.1.53.Final'
-    implementation 'org.json:json:20200518'
-}
-
-jar {
-    manifest {
-        attributes 'Main-Class': 'me.puds.server.PuddingServer'
+    repositories {
+        mavenCentral()
     }
-    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    dependencies {
+        implementation 'io.netty:netty-all:4.1.53.Final'
+        implementation 'org.json:json:20200518'
+    }
 }
