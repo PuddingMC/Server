@@ -3,7 +3,7 @@ package me.puds.server.server.netty;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import me.puds.server.protocol.PacketBuffer;
+import me.puds.server.api.protocol.PacketBuffer;
 
 import java.util.List;
 

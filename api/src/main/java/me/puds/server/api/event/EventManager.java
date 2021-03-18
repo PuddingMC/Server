@@ -1,8 +1,7 @@
 package me.puds.server.api.event;
 
-import me.puds.server.common.Listenable;
-import me.puds.server.protocol.Connection;
-import me.puds.server.protocol.Packet;
+import me.puds.server.api.protocol.Connection;
+import me.puds.server.api.protocol.Packet;
 
 import java.lang.reflect.Method;
 import java.util.*;

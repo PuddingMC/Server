@@ -3,10 +3,10 @@ package me.puds.server.server.listener.packet;
 import me.puds.server.api.event.EventHandler;
 import me.puds.server.api.event.EventListener;
 import me.puds.server.api.event.EventPriority;
-import me.puds.server.protocol.Connection;
-import me.puds.server.protocol.PingResponse;
-import me.puds.server.protocol.packet.client.StatusRequestPacket;
-import me.puds.server.protocol.packet.server.StatusResponsePacket;
+import me.puds.server.api.protocol.Connection;
+import me.puds.server.api.protocol.PingResponse;
+import me.puds.server.api.protocol.packet.client.StatusRequestPacket;
+import me.puds.server.api.protocol.packet.server.StatusResponsePacket;
 
 import java.util.Map;
 

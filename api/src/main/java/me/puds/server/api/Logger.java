@@ -1,5 +1,8 @@
 package me.puds.server.api;
 
+import me.puds.server.api.text.TextBuilder;
+import me.puds.server.api.text.TextComponent;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -16,12 +19,17 @@ public class Logger {
         // TODO: Translate in-game colors to ANSI colors
 
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        String formatted = "\u001b[" + level.getColor().getAnsi() + "m" +
-                "(" + timestamp + ") " +
-                "(" + name + "/" + level.getDisplayName() + ") " +
-                "\u001b[0m" + finalMessage;
+        TextComponent formatted = TextBuilder.builder()
+                .add("(" + timestamp + ")", level.getColor())
+                .space()
+                .add("(" + name + "/" + level.getDisplayName() + ")", level.getColor())
+                .space()
+                .reset()
+                .add(finalMessage)
+                .reset()
+                .build();
 
-        System.out.println(formatted);
+        System.out.println(formatted.toAnsiString());
     }
 
     public void debug(Object message) {

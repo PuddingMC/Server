@@ -5,13 +5,14 @@ import me.puds.server.api.Server;
 import me.puds.server.api.event.EventHandler;
 import me.puds.server.api.event.EventListener;
 import me.puds.server.api.event.EventPriority;
-import me.puds.server.protocol.Connection;
-import me.puds.server.protocol.ConnectionState;
-import me.puds.server.protocol.ProtocolVersion;
-import me.puds.server.protocol.packet.client.LoginStartPacket;
-import me.puds.server.protocol.packet.server.LoginSuccessPacket;
-import me.puds.server.common.text.TextColor;
-import me.puds.server.common.text.TextComponent;
+import me.puds.server.api.protocol.packet.server.ResourcePackSendPacket;
+import me.puds.server.api.text.TextColor;
+import me.puds.server.api.text.TextComponent;
+import me.puds.server.api.protocol.*;
+import me.puds.server.api.protocol.packet.client.LoginStartPacket;
+import me.puds.server.api.protocol.packet.server.JoinGamePacket;
+import me.puds.server.api.protocol.packet.server.LoginSuccessPacket;
+import me.puds.server.api.protocol.packet.server.PlayerPositionLookPacket;
 
 import java.util.UUID;
 
@@ -30,9 +31,13 @@ public class LoginStartListener implements EventListener {
         LoginSuccessPacket successPacket = new LoginSuccessPacket(player.getUniqueId(), player.getName());
         player.sendPacket(successPacket);
         player.setState(ConnectionState.PLAY);
+        player.setLastKeepAlive(System.currentTimeMillis());
 
         int entityId = Server.nextEntityId();
         // TODO: Send game join packet
+
+        TextComponent joinMessage = new TextComponent(player.getName() + " has joined."); // TODO: Customizable message
+        Server.broadcastMessage(joinMessage);
 
         Server.getConnections().put(connection.getAddress(), player);
     }

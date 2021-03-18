@@ -1,6 +1,4 @@
 rootProject.name = 'PuddingServer'
 include 'api'
-include 'common'
-include 'protocol'
 include 'server'
 

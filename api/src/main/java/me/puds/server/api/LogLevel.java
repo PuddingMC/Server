@@ -1,6 +1,6 @@
 package me.puds.server.api;
 
-import me.puds.server.common.text.TextColor;
+import me.puds.server.api.text.TextColor;
 
 public enum LogLevel {
     DEBUG("Debug", TextColor.GRAY),
